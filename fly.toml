@@ -1,36 +1,35 @@
-# fly.toml app configuration file generated for JoseVeC-inventory on 2025-11-30
+# fly.toml app configuration file generated for josevec-inventory on 2025-11-30T23:52:34-03:00
+#
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app = "josevec-inventory"
-primary_region = "mia" # Miami - Cambia según tu región preferida
+app = 'josevec-inventory'
+primary_region = 'gru'
 
 [build]
-  dockerfile = "Dockerfile.flyio"
+  dockerfile = 'Dockerfile.flyio'
 
 [env]
-  PORT = "8080"
-  PYTHONUNBUFFERED = "1"
-  DJANGO_SETTINGS_MODULE = "config.settings"
+  DJANGO_SETTINGS_MODULE = 'config.settings'
+  PORT = '8080'
+  PYTHONUNBUFFERED = '1'
 
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = true
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
-  processes = ["app"]
+  processes = ['app']
 
-[[http_service.checks]]
-  grace_period = "10s"
-  interval = "30s"
-  method = "GET"
-  timeout = "5s"
-  path = "/"
+  [[http_service.checks]]
+    interval = '30s'
+    timeout = '5s'
+    grace_period = '10s'
+    method = 'GET'
+    path = '/health/'
 
 [[vm]]
-  cpu_kind = "shared"
+  memory = '512mb'
+  cpu_kind = 'shared'
   cpus = 1
-  memory_mb = 512
-
-# Base de datos MySQL (usando Fly Postgres como alternativa o MySQL externo)
-# Nota: Fly.io no tiene MySQL nativo, usar Postgres o MySQL externo

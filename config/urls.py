@@ -1,6 +1,7 @@
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.http import HttpResponse
 from app.controllers.auth_controller import AuthController
 from app.controllers.dashboard_controller import DashboardController
 from app.controllers.product_controller import ProductController
@@ -19,7 +20,12 @@ from app.controllers.config_controller import ConfigController
 from app.controllers.documentation_controller import DocumentationController
 from app.controllers.chatbot_controller import ChatbotController
 
+# Health check endpoint
+def health_check(request):
+    return HttpResponse("OK", status=200)
+
 urlpatterns = [
+    path('health/', health_check, name='health'),
     path('', DashboardController.index, name='dashboard'),
     path('login/', AuthController.login, name='login'),
     path('register/', AuthController.register, name='register'),
