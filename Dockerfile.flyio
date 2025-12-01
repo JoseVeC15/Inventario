@@ -25,14 +25,18 @@ RUN pip install --no-cache-dir \
     mysqlclient==2.2.1 \
     python-dotenv==1.0.0 \
     gunicorn==21.2.0 \
-    google-generativeai==0.3.1
+    google-generativeai==0.3.1 \
+    whitenoise==6.6.0
 
 # Copiar el código de la aplicación
 COPY . /app/
 
-# Crear usuario no privilegiado
+# Crear usuario no privilegiado antes de recolectar estáticos
 RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 USER appuser
+
+# Recolectar archivos estáticos
+RUN python collect_static.py
 
 # Exponer el puerto
 EXPOSE 8080

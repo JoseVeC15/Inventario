@@ -29,6 +29,7 @@ def configure_django():
             }],
             MIDDLEWARE=[
                 'django.middleware.security.SecurityMiddleware',
+                'whitenoise.middleware.WhiteNoiseMiddleware',
                 'django.contrib.sessions.middleware.SessionMiddleware',
                 'django.middleware.common.CommonMiddleware',
                 'django.middleware.csrf.CsrfViewMiddleware',
@@ -51,7 +52,9 @@ def configure_django():
             SESSION_ENGINE='django.contrib.sessions.backends.db',
             USE_TZ=True,
             STATIC_URL='/static/',
+            STATIC_ROOT=os.path.join(os.path.dirname(os.path.dirname(__file__)), 'staticfiles'),
             STATICFILES_DIRS=[
                 os.path.join(os.path.dirname(os.path.dirname(__file__)), 'app', 'static'),
             ],
+            STATICFILES_STORAGE='whitenoise.storage.CompressedManifestStaticFilesStorage',
         )
