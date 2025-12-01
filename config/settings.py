@@ -15,6 +15,7 @@ def configure_django():
             DEBUG=os.getenv('DEBUG', 'False') == 'True',
             SECRET_KEY=os.getenv('SECRET_KEY', 'mi-clave-secreta-super-segura-CAMBIAR-EN-PRODUCCION'),
             ALLOWED_HOSTS=allowed_hosts,
+            CSRF_TRUSTED_ORIGINS=['https://josevec-inventory.fly.dev', 'https://*.fly.dev'],
             ROOT_URLCONF='config.urls',
             TEMPLATES=[{
                 'BACKEND': 'django.template.backends.django.DjangoTemplates',
