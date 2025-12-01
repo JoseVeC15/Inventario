@@ -1,0 +1,24 @@
+# Archivos y directorios que no se deben incluir en el contenedor Docker
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+*.egg-info/
+dist/
+build/
+*.log
+.git/
+.gitignore
+.docker/
+.env.example
+README.md
+Makefile
+*.md
+.vscode/
+.idea/
+server.log

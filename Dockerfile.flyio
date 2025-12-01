@@ -1,0 +1,41 @@
+# Dockerfile optimizado para Fly.io
+FROM python:3.11-slim
+
+# Variables de entorno
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PORT=8080
+
+# Instalar dependencias del sistema
+RUN apt-get update && apt-get install -y \
+    gcc \
+    default-libmysqlclient-dev \
+    pkg-config \
+    && rm -rf /var/lib/apt/lists/*
+
+# Crear directorio de trabajo
+WORKDIR /app
+
+# Instalar dependencias de Python
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+
+# Instalar paquetes de Python necesarios
+RUN pip install --no-cache-dir \
+    Django==5.0.0 \
+    mysqlclient==2.2.1 \
+    python-dotenv==1.0.0 \
+    gunicorn==21.2.0 \
+    google-generativeai==0.3.1
+
+# Copiar el código de la aplicación
+COPY . /app/
+
+# Crear usuario no privilegiado
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+
+# Exponer el puerto
+EXPOSE 8080
+
+# Comando de inicio con Gunicorn
+CMD gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 config.wsgi:application
