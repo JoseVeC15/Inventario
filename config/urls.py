@@ -20,9 +20,9 @@ from app.controllers.config_controller import ConfigController
 from app.controllers.documentation_controller import DocumentationController
 from app.controllers.chatbot_controller import ChatbotController
 
-# Health check endpoint
+# Health check endpoint (sin requerir DB)
 def health_check(request):
-    return HttpResponse("OK", status=200)
+    return HttpResponse("OK", status=200, content_type="text/plain")
 
 urlpatterns = [
     path('health/', health_check, name='health'),

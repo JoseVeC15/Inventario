@@ -37,5 +37,5 @@ USER appuser
 # Exponer el puerto
 EXPOSE 8080
 
-# Comando de inicio con Gunicorn
-CMD gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 config.wsgi:application
+# Comando de inicio con Gunicorn con logs detallados
+CMD gunicorn --bind 0.0.0.0:$PORT --workers 2 --timeout 120 --log-level debug --access-logfile - --error-logfile - config.wsgi:application
