@@ -4,10 +4,17 @@ from django.conf import settings
 def configure_django():
     """Configura Django si no está configurado"""
     if not settings.configured:
+        # Para health checks de Fly.io, permitir todas las IPs
+        allowed_hosts_str = os.getenv('ALLOWED_HOSTS', '*')
+        if allowed_hosts_str == '*':
+            allowed_hosts = ['*']
+        else:
+            allowed_hosts = allowed_hosts_str.split(',')
+        
         settings.configure(
             DEBUG=os.getenv('DEBUG', 'False') == 'True',
             SECRET_KEY=os.getenv('SECRET_KEY', 'mi-clave-secreta-super-segura-CAMBIAR-EN-PRODUCCION'),
-            ALLOWED_HOSTS=os.getenv('ALLOWED_HOSTS', '*').split(','),
+            ALLOWED_HOSTS=allowed_hosts,
             ROOT_URLCONF='config.urls',
             TEMPLATES=[{
                 'BACKEND': 'django.template.backends.django.DjangoTemplates',
