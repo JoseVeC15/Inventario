@@ -2,12 +2,15 @@
 WSGI config for production deployment
 """
 import os
-from django.core.wsgi import get_wsgi_application
+import sys
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+# Agregar el directorio raíz al path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# Configurar Django antes de obtener la aplicación
+# Configurar Django manualmente
 from config.settings import configure_django
 configure_django()
 
+# Obtener la aplicación WSGI
+from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
